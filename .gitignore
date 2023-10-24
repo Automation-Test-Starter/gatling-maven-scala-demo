@@ -1,1 +1,3 @@
 .metals
+/target
+/.mvn/wrapper/*.jar
