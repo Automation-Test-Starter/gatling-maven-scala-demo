@@ -1,0 +1,39 @@
+name: Gatling Performance Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  performance-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: 'adopt'
+          
+
+      - name: Run Gatling tests
+        run: |
+          mvn gatling:test
+        env:
+          GATLING_SIMULATIONS_FOLDER: src/test/scala
+
+      - name: Archive Gatling results
+        uses: actions/upload-artifact@v2
+        with:
+          name: gatling-results
+          path: target/gatling
+
+      - name: Upload Gatling results to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          name: gatling-results
+          path: target/gatling
